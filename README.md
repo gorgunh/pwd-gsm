@@ -18,7 +18,12 @@ Pale Moon Add-on For Password Generate - Storage - Manage with connected Passwor
 > `pip install hashlib`
 
 **Note:** If you have trouble while installing hashlib library, please try to remove Linux hashlib library with following command then run the installation command again:
-> `sudo rm /usr/lib/python2.7/lib_dynload/_hashlib`
+> `sudo rm /usr/lib/python2.7/lib_dynload/_hashlib.x86_64-linux-gnu.so`
+
+**Note:** If the hashlib library remove is not a solution, try *easy_install* with following command:
+
+> `sudo easy_install hashlib`
+
 3. Install *libmcrypt-dev* package from Linux mirrors with following command:
 > `sudo apt-get install libmcrypt-dev`
 4. Install *python-mcrypt-1.1* library with using pip command:
