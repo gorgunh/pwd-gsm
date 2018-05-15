@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html data-portname="panel">
+  <head>
+    <meta charset="utf-8">
+    <script src= "./assets/jquery-3.3.1.js"></script>
+  </head>
+  <body>
+	<div id = "set_first_master_password_first_div">
+		<table>
+			<tr>
+				<td width = "50%">Enter Master Password</td>
+				<td width = "50%"><input type= "text" id = "first_master_password"/></td>
+			</tr>
+			<tr>
+				<td width = "50%">Re-enter Master Password</td>
+				<td width = "50%"><input type= "text" id = "first_master_password_re_enter"/></td>
+			</tr>
+		</table>
+		<input type = "button" id = "set_first_master_password_btn" value="Set Your Master Password"/>
+		<br>
+		<div id = "set_master_password_first_error_message_div"></div>
+	</div>
+	<div id = "login_div">
+		<table>
+			<tr>
+				<td width = "50%">Enter Master Password</td>
+				<td width = "50%"><input type= "password" id = "master_password_for_login"/></td>
+			</tr>
+		</table>
+		<input type = "button" id = "login_btn" value="Login"/>
+		<br>
+		<div id = "login_error_message_div"></div>
+	</div>
+	<div id = "main_menu_div">
+		<table>
+			<tr>
+				<td><input type = "button" id = "generate_password_for_specific_site" value="Generate Password For This Website"/></td>
+			</tr>
+			<tr>
+				<td><input type = "button" id = "list_all_passwords_btn" value="List All Passwords"/></td>
+			</tr>
+			<tr>
+				<td><input type = "button" id = "passwordsafe_integration_menu_btn" value="PasswordSafe Integration (Linux Only)"/></td>
+			</tr>
+		</table>
+	</div>
+	<div id = "generate_password_div">
+		<div id = "current_url_div"></div>
+		<table>
+			<tr>
+				<td width = "50%">Enter Username</td>
+				<td width = "50%"><input type= "text" id = "username_for_generate_password"/></td>
+			</tr>
+			<tr>
+				<td width = "50%">Desired Password Length</td>
+				<td width = "50%"><input type= "text" id = "desired_length_for_generate_password"/></td>
+			</tr>
+			<tr>
+				<td width = "50%">Upper Case Letter Allowed</td>
+				<td width = "50%"><input type= "checkbox" id = "upper_case_allowed_checkbox" checked/></td>
+			</tr>
+			<tr>
+				<td width = "50%">Special Characters Allowed</td>
+				<td width = "50%"><input type= "checkbox" id = "special_characters_allowed_checkbox" checked/></td>
+			</tr>
+		</table>
+		<input type = "button" id = "generate_and_save_password_btn" value="Generate & Save & Copy To Clipboard"/>
+		<br>
+		<div id = "generate_password_error_message_div"></div>
+	</div>
+	<div id = "password_safe_integration_menu_div">
+		<table>
+			<tr>
+				<td><input type = "button" id = "passwordsafe_integration_config_btn" value="Configure Extension For PasswordSafe"/></td>
+			</tr>
+			<tr>
+				<td><input type = "button" id = "passwordsafe_list_all_btn" value="List All Passwords From PasswordSafe"/></td>
+			</tr>
+		</table>
+	</div>
+	<div id = "passwordsafe_integration_config_div">
+		<table>
+			<tr>
+				<td width = "50%">PasswordSafe Database File Path</td>
+				<td width = "50%"><input type= "text" id = "passwordsafe_database_file_path"/></td>
+			</tr>
+			<tr>
+				<td width = "50%">PasswordSafe Database Password</td>
+				<td width = "50%"><input type= "text" id = "passwordsafe_database_password"/></td>
+			</tr>
+		</table>
+		<input type = "button" id = "save_passwordsafe_config_btn" value="Save Configurations"/>
+		<br>
+		<div id = "passwordsafe_configuration_save_error_message_div"></div>
+	</div>
+    <script src= "panelHandler.js"></script>
+  </body>
+</html>
