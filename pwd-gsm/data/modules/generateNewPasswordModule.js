@@ -31,6 +31,7 @@ function reGeneratePasswordFromSavedMetadata(url, username, willCopyToClipboard)
 						if (!allSavedPasswordMetadata[i].userSavedPasswordData[j].isUpperCaseAllowed){
 							generatedSHA1HmacPassword = generatedSHA1HmacPassword.toLowerCase();
 						}
+						generatedSHA1HmacPassword = generatedSHA1HmacPassword.replace(String.fromCharCode(92),String.fromCharCode(47)).replace(String.fromCharCode(39),String.fromCharCode(34));
 						break;
 					}
 				}
@@ -68,6 +69,7 @@ function generateSaveAndCopyClipboardPasswordFromMetadataObject(userInputObject)
 		if (!userInputObject.isUpperCaseAllowed){
 			generatedSHA1HmacPassword = generatedSHA1HmacPassword.toLowerCase();
 		}
+		generatedSHA1HmacPassword = generatedSHA1HmacPassword.replace(String.fromCharCode(92),String.fromCharCode(47)).replace(String.fromCharCode(39),String.fromCharCode(34));
 		
 		var passwordStorageOperationReturnString = passwordStorageOperations.saveUserPasswordsMetadata(userInputObject);
 		if (!passwordStorageOperationReturnString.startsWith("OK")){

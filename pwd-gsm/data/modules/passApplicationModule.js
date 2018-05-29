@@ -70,16 +70,6 @@ function addPasswordDataToPasswordSafe(objectToSent, callbackFunction){
 			console.log(stdout);
 			callbackFunction(stdout);
 		});
-		/*
-		var pythonSubprocess = spawn('/usr/bin/python', [env.HOME + "/pwdgsm/pwd-gsm-ext.py",passwordSafeConnectionInfo.psafe3DatabasePath ,passwordSafeConnectionInfo.DBPassword , 'insert', objectToSent.title, objectToSent.username, objectToSent.password, objectToSent.url]);
-		pythonSubprocess.stdout.on('data', function (data){
-			callbackFunction(data);
-		});
-
-		pythonSubprocess.stderr.on('data',function (data){
-			callbackFunction("FAIL:###:" + data);
-		});
-		*/
 	}
 }
 
@@ -107,33 +97,16 @@ function listAllDataFromPasswordSafe(callbackFunction){
 			}
 			catch(err){
 				returnObject.returnStatus = "FAIL";
-				returnObject.returnData = err.message;
+				if (stdout.startsWith("FAIL")){
+					returnObject.returnData = stdout.split(":")[1];
+				}
+				else{
+					returnObject.returnData = err.message;
+				}
+				
 			}
 			callbackFunction(returnObject);
 		});
-		/*
-		var pythonSubprocess = spawn('/usr/bin/python', [env.HOME + "/pwdgsm/pwd-gsm-ext.py",passwordSafeConnectionInfo.psafe3DatabasePath ,passwordSafeConnectionInfo.DBPassword , 'listall']);
-		pythonSubprocess.stdout.on('data', function (data){
-			console.log(data);
-			try{
-				returnObject.returnStatus = "OK";
-				returnObject.returnData = JSON.parse(data);
-			}
-			catch(err){
-				returnObject.returnStatus = "FAIL";
-				returnObject.returnData = err.message;
-			}
-			callbackFunction(returnObject);
-		});
-		*/
-		/*
-		pythonSubprocess.stderr.on('data',function (data){
-			returnObject.returnStatus = "FAIL:" + data;
-			returnObject.returnData = null;
-			callbackFunction(returnObject);
-			return;
-		});
-		*/
 	}
 }
 

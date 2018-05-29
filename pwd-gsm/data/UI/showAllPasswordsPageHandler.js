@@ -1,6 +1,7 @@
-var tableDOMString = "";
 self.port.on("SHOW_ALL_PWDS_RESULT", function(returnArray){
-	console.log(returnArray);
+	console.log("enter");
+	var tableDOMString = "";
+	$('#all_passwords_table tr').remove();
 	var i;
 	for (i = 0; i < returnArray.length; i++){
 		tableDOMString += "<tr>"
@@ -37,7 +38,20 @@ self.port.on("SHOW_ALL_PWDS_RESULT", function(returnArray){
 		senderObject.username = splitArray[2];
 		self.port.emit("SAVE_TO_PASSWORDSAFE",senderObject);
 	});
+	$('input[id^="deletePasswordMetadata"]').click(function(event){
+		if (confirm ("Are you sure to delete this metadata?")){
+			var splitArray = event.target.id.split(":###:");
+			var senderObject = new Object();
+			senderObject.url = splitArray[1];
+			senderObject.username = splitArray[2];
+			self.port.emit("DELETE_PWD_DATA",senderObject);
+		}
+	});
 	
+});
+
+self.port.on("DELETE_PWDS_FAIL_RESULT", function(returnString){
+	alert("ERROR! " + returnString.split(":####:")[1]);
 });
 
 self.port.on("REGENERATE_PWD_FROM_DATA_RESULT", function(returnString){
@@ -52,7 +66,6 @@ self.port.on("SAVE_TO_PASSWORDSAFE_RESULT", function(returnString){
 	if (returnString.startsWith("OK")){
 		alert("Successfully Saved!");
 		var splitArray = returnString.split(":###:");
-		console.log('#saveToPasswordSafe:###:' + splitArray[1] + ":###:" + splitArray[2]);
 		$('input[id="saveToPasswordSafe:###:' + splitArray[1] +':###:' + splitArray[2] +'"]').prop("disabled", true);
 	}
 	else{

@@ -34,6 +34,6 @@ Pale Moon Add-on For Password Generate - Storage - Manage with connected Passwor
 7. Finally, on Pale Moon, go to `Tools > Add-ons` and click cogwheel button near to the *Search all add-ons* textbox and click the *Install Add-on From File...* button. Select the *@pwd-gsm.xpi* file from our project under the *dist* file and click *Open* button. That is it!
 ## TODO List
  - Password fields in HTML files are just visible for testing.
- - In List All Password section, Delete buttons have no functionality. It will be added soon.
+ - ~~In List All Password section, Delete buttons have no functionality. It will be added soon.~~
  - Some Windows tests are not done. It should be completed.
-
+ - Some error handling on Python connector should be done.

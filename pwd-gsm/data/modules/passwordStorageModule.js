@@ -59,7 +59,6 @@ function setMasterPasswordFirstTime(userMasterPasswordInput){
 		sessionOperation("OPEN");
 		passwordObject.encryptedPassword = pwdgsmUtils.wordArrayToStringWithoutExtendedASCIICharacters(cryptoJSInstance.HmacSHA256(userMasterPasswordInput,"key/%93"));
 		simpleStorageObject.storage.pwdgsmObject = passwordObject;
-		console.log(passwordObject);
 	}
 	else{
 		throw new Error('Master Password Already Set!');
@@ -90,7 +89,6 @@ function getMasterPasswordHashedValue(){
  */
 
 function getAllSavedPasswordsMetadata(){
-	console.log(passwordObject);
 	return passwordObject.storedPasswordsMetadata;
 }
 /*
@@ -183,7 +181,77 @@ function saveUserPasswordsMetadata(passwordMetadataTransferObject){
 	}
 	return returnMessage;
 }
-
+function removePasswordMetadataInfo(passwordMetadataTransferObject){
+	var returnMessage = "OK";
+	try{
+		var index = 0;
+		for (index = 0; index < passwordObject.storedPasswordsMetadata.length; index++){
+			if (passwordObject.storedPasswordsMetadata[index].url == passwordMetadataTransferObject.url){
+				var newUserSavedPasswordListForThisURL = new Array();
+				var oldUserSavedPasswordListForThisURL = passwordObject.storedPasswordsMetadata[index].userSavedPasswordData;
+				var index2 = 0;
+				for (index2 = 0; index2 < oldUserSavedPasswordListForThisURL.length; index2++){
+					if (oldUserSavedPasswordListForThisURL[index2].username != passwordMetadataTransferObject.username){
+						newUserSavedPasswordListForThisURL.push(oldUserSavedPasswordListForThisURL[index2]);
+					}
+				}
+				passwordObject.storedPasswordsMetadata[index].userSavedPasswordData = newUserSavedPasswordListForThisURL;
+			}
+		}
+		
+		index = 0;
+		var newStoredPasswordsMetadata = new Array();
+		for (index = 0; index < passwordObject.storedPasswordsMetadata.length; index++){
+			if (passwordObject.storedPasswordsMetadata[index].userSavedPasswordData.length != 0){
+				newStoredPasswordsMetadata.push(passwordObject.storedPasswordsMetadata[index]);
+			}
+		}
+		passwordObject.storedPasswordsMetadata = newStoredPasswordsMetadata;
+		
+		simpleStorageObject.storage.pwdgsmObject = passwordObject;
+		
+		
+	} catch (err){
+		returnMessage = "FAIL:###:" + err.message;
+	}
+	return returnMessage;
+	/*
+	var returnMessage = "OK:###:" + passwordMetadataTransferObject.url + ":###:" + passwordMetadataTransferObject.username;
+	var index;
+	var isFoundOnStorage = false;
+	try{
+		for (index = 0; index < passwordObject.storedPasswordsMetadata.length; index++){
+			if (passwordObject.storedPasswordsMetadata[index].url == passwordMetadataTransferObject.url){
+				var savedPasswordListForThisURL = passwordObject.storedPasswordsMetadata[index].userSavedPasswordData;
+				var newSavedPasswordListForThisURL;
+				if (typeof savedPasswordListForThisURL == "undefined" || savedPasswordListForThisURL == null || savedPasswordListForThisURL.length == 0){
+					throw new Error('Corrupted Metadata!');
+				}
+				else{
+					var index2;
+					newSavedPasswordListForThisURL = new Array();
+					for (index2 = 0; index2 < savedPasswordListForThisURL.length; index2++){
+						if (savedPasswordListForThisURL[index2].username != passwordMetadataTransferObject.username){
+							newSavedPasswordListForThisURL.push(savedPasswordListForThisURL[index2]);
+						}
+						else{
+							isFoundOnStorage = true;
+						}
+					}
+				}
+				if (isFoundOnStorage){
+					passwordObject.storedPasswordsMetadata[index].userSavedPasswordData = newSavedPasswordListForThisURL;
+					break;
+				}
+			}
+		}
+	}
+	catch (err){
+		returnMessage = "FAIL:###:" + err.message;
+	}
+	return returnMessage;
+	*/
+}
 /*
  * This is created for only test issues. 
  */
@@ -250,7 +318,8 @@ module.exports.passwordSafeConnectionModule = {
 
 module.exports.passwordStorageModule = {
 	getAllSavedPasswordsMetadata : getAllSavedPasswordsMetadata,
-	saveUserPasswordsMetadata : saveUserPasswordsMetadata
+	saveUserPasswordsMetadata : saveUserPasswordsMetadata,
+	removePasswordMetadataInfo : removePasswordMetadataInfo
 }
 
 module.exports.masterPasswordModule = {

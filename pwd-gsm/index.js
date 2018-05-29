@@ -78,6 +78,19 @@ myPanel.port.on("SHOW_ALL_PWDS", function(){
 				var reGeneratePasswordPhaseResult = generateNewPasswordModule.reGeneratePasswordFromSavedMetadata(obj.url, obj.username, true);
 				worker.port.emit("REGENERATE_PWD_FROM_DATA_RESULT",reGeneratePasswordPhaseResult);
 			});
+			worker.port.on("DELETE_PWD_DATA", function(obj){
+				var objectToSent = new Object();
+				objectToSent.url = obj.url;
+				objectToSent.username = obj.username;
+				var deleteResult = passwordStorageOperations.removePasswordMetadataInfo(objectToSent);
+				if (deleteResult.startsWith("FAIL")){
+					worker.port.emit("DELETE_PWDS_FAIL_RESULT", deleteResults.split(":###:")[1]);
+				}
+				else{
+					var reGetStoredPasswordMetadata = passwordStorageOperations.getAllSavedPasswordsMetadata();
+					worker.port.emit("SHOW_ALL_PWDS_RESULT", reGetStoredPasswordMetadata);
+				}
+			});
 			worker.port.on("SAVE_TO_PASSWORDSAFE",function(obj){
 				var returnMessage = "OK";
 				try{
@@ -147,7 +160,6 @@ myPanel.port.on("SHOW_ALL_PASSWORDSAFE_PWDS", function(){
 				contentScriptFile : [self.data.url("./UI/assets/jquery-3.3.1.js"), self.data.url("./UI/showAllPasswordSafePasswordsPageHandler.js")]
 			});
 			passwordSafeConnectionModule.listAllDataFromPasswordSafe(function(returnObject){
-				console.log("TEST2");
 				worker.port.emit("SHOW_ALL_PASSWORDSAFE_PWDS_RESULT", returnObject);
 			});
 			worker.port.on("COPY_TO_CLIPBOARD_FROM_PASSWORDSAFE", function(returnMessage){
